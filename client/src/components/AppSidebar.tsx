@@ -45,7 +45,7 @@ export function AppSidebar() {
               state === "collapsed" ? "hidden" : "block"
             }`}
           >
-            TaskFlow
+            TaskPilot
           </h2>
           {state === "collapsed" && (
             <ListTodo className="h-6 w-6 text-sidebar-foreground" />
