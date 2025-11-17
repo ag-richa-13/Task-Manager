@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  passwordHash  String
+  refreshToken  String?   // store the latest refresh token hashed or raw depending on preference
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  tasks         Task[]
+}
+
+model Task {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  status      String   @default("pending") // "pending" | "completed"
+  priority    String   @default("medium") // "low" | "medium" | "high"
+  dueDate     DateTime?
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([ownerId])
+  @@index([status])
+}

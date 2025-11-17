@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frontend-Backend Connection Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .test-result {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Frontend-Backend Connection Test</h1>
+    <p>
+      Testing connection between frontend (localhost:8081) and backend
+      (localhost:4000)
+    </p>
+
+    <button onclick="testBasicConnection()">Test Basic Connection</button>
+    <button onclick="testAuthEndpoint()">Test Auth Endpoint</button>
+    <button onclick="testRegistration()">Test Registration</button>
+
+    <div id="results"></div>
+
+    <script>
+      const API_URL = "http://localhost:4000";
+      const resultsDiv = document.getElementById("results");
+
+      function addResult(testName, success, message) {
+        const resultDiv = document.createElement("div");
+        resultDiv.className = `test-result ${success ? "success" : "error"}`;
+        resultDiv.innerHTML = `<strong>${testName}:</strong> ${message}`;
+        resultsDiv.appendChild(resultDiv);
+      }
+
+      async function testBasicConnection() {
+        try {
+          const response = await fetch(`${API_URL}/`);
+          const data = await response.json();
+
+          if (response.ok && data.ok === true) {
+            addResult(
+              "Basic Connection",
+              true,
+              "✅ Backend is responding correctly"
+            );
+          } else {
+            addResult(
+              "Basic Connection",
+              false,
+              "❌ Backend responded but with unexpected data"
+            );
+          }
+        } catch (error) {
+          addResult(
+            "Basic Connection",
+            false,
+            `❌ Connection failed: ${error.message}`
+          );
+        }
+      }
+
+      async function testAuthEndpoint() {
+        try {
+          const response = await fetch(`${API_URL}/auth/register`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: "Test User",
+              email: "test@example.com",
+              password: "password123",
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            addResult(
+              "Auth Registration",
+              true,
+              `✅ Registration successful. Token: ${data.accessToken.substring(
+                0,
+                20
+              )}...`
+            );
+          } else {
+            const error = await response.json();
+            addResult(
+              "Auth Registration",
+              false,
+              `❌ Registration failed: ${error.message || "Unknown error"}`
+            );
+          }
+        } catch (error) {
+          addResult(
+            "Auth Registration",
+            false,
+            `❌ Connection failed: ${error.message}`
+          );
+        }
+      }
+
+      async function testRegistration() {
+        try {
+          // Test with a unique email to avoid duplicate user errors
+          const uniqueEmail = `test${Date.now()}@example.com`;
+          const response = await fetch(`${API_URL}/auth/register`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: "Test User",
+              email: uniqueEmail,
+              password: "password123",
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            addResult(
+              "Unique Registration",
+              true,
+              `✅ Registration successful with unique email: ${uniqueEmail}`
+            );
+          } else {
+            const error = await response.json();
+            addResult(
+              "Unique Registration",
+              false,
+              `❌ Registration failed: ${error.message || "Unknown error"}`
+            );
+          }
+        } catch (error) {
+          addResult(
+            "Unique Registration",
+            false,
+            `❌ Connection failed: ${error.message}`
+          );
+        }
+      }
+
+      // Auto-test basic connection on page load
+      window.onload = function () {
+        testBasicConnection();
+      };
+    </script>
+  </body>
+</html>
