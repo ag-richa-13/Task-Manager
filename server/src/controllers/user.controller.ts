@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
-import { AuthRequest } from "../middlewares/auth.middleware";
+ 
 
 const prisma = new PrismaClient();
 
 export const getUserProfile = async (
-  req: AuthRequest,
+  req: Request,
   res: Response
 ) => {
   try {
@@ -124,7 +124,7 @@ export const getUserProfile = async (
 };
 
 export const updateUserProfile = async (
-  req: AuthRequest,
+  req: Request,
   res: Response
 ) => {
   try {
@@ -174,7 +174,7 @@ export const updateUserProfile = async (
 };
 
 export const changePassword = async (
-  req: AuthRequest,
+  req: Request,
   res: Response
 ) => {
   try {
@@ -233,7 +233,7 @@ export const changePassword = async (
 };
 
 export const getUserStatistics = async (
-  req: AuthRequest,
+  req: Request,
   res: Response
 ) => {
   try {
@@ -333,7 +333,7 @@ export const getUserStatistics = async (
 };
 
 export const deleteAccount = async (
-  req: AuthRequest,
+  req: Request,
   res: Response
 ) => {
   try {

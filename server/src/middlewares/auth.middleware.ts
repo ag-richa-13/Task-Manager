@@ -1,12 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyAccessToken } from "../services/token.service";
 
-export interface AuthRequest extends Request {
-  user?: { userId: string; email: string };
-}
-
 export function requireAuth(
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) {
