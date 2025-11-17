@@ -1,6 +1,18 @@
 # Task Manager
 
-A full‑stack Task Manager application with a React (Vite) frontend and a TypeScript/Express backend using Prisma ORM and JWT authentication.
+This project is a comprehensive Task Management System developed as part of a Software Engineering Assessment, focusing on **Track A: Full-Stack Engineer**. It comprises a robust Backend API and a dynamic Web Frontend.
+
+The **Backend API** is built with **Node.js** and **TypeScript**, utilizing an **SQL Database** managed by **Prisma** for data persistence. Key features include:
+*   **User Security:** Implements secure Login, Registration, and Logout functionalities. Authentication is handled via **JWT (JSON Web Tokens)**, employing both short-lived Access Tokens for protected routes and long-lived Refresh Tokens for seamless session management. Passwords are securely hashed using **bcrypt**.
+*   **Task Management (CRUD):** Provides full Create, Read, Update, and Delete operations for personal tasks. Tasks are strictly associated with the logged-in user. The main task list endpoint supports **pagination**, **filtering by status**, and **searching by title**.
+*   **Technical Standards:** Adheres to TypeScript best practices, leverages Prisma as an ORM, and ensures proper validation with clear error handling using standard HTTP status codes (e.g., 400, 401, 404).
+
+The **Web Frontend** is developed using **Next.js** and **TypeScript**, designed to be fully responsive across various devices. It features the following pages and functionalities:
+*   **Authentication:** Dedicated Login and Registration pages that seamlessly integrate with the backend API, managing Access and Refresh Tokens to maintain user sessions.
+*   **Task Dashboard:** A user-friendly interface to display tasks, incorporating filtering and searching capabilities for efficient task management.
+*   **CRUD Functionality:** Intuitive UI and forms for adding new tasks, editing existing ones, deleting completed tasks, and toggling their status. User feedback is provided through simple **toast notifications** for all operations.
+
+This system demonstrates proficiency in building secure, scalable, and user-friendly full-stack applications.
 
 ## Features
 - User registration and login with JWT
