@@ -15,10 +15,14 @@ dotenv.config();
 const router = express.Router();
 
 const COOKIE_NAME = "refreshToken";
+const COOKIE_SAMESITE = (process.env.COOKIE_SAMESITE || "lax") as
+  | "lax"
+  | "strict"
+  | "none";
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.COOKIE_SECURE === "true",
-  sameSite: "lax" as const,
+  sameSite: COOKIE_SAMESITE,
   path: "/",
 };
 
